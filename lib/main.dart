@@ -2,8 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 import 'dart:async' show Future;
 import 'package:flutter/services.dart';
+import 'package:flutter/cupertino.dart';
 
 void main() => runApp(new MyApp());
+
+class CupertinoTestRoute extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        middle: Text('Cupertino Demo'),
+      ),
+      child: Center(
+        child: CupertinoButton(
+          color: CupertinoColors.activeBlue,
+          child: Text('ios风格的Buttton'),
+          onPressed: () {},
+        ),
+      ),
+    );
+  }
+}
 
 Future<String> loadAssets() async {
   return await rootBundle.loadString('assets/config.json');
@@ -44,6 +63,21 @@ class _CountState extends State<Count> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            RaisedButton(
+              color: Colors.blue,
+              highlightColor: Colors.blue[700],
+              colorBrightness: Brightness.dark, // 按钮主题
+              splashColor: Colors.grey,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0)),
+              child: Text('文本字体样式'),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) => new TextFontStyle()));
+              },
+            ),
             Text(
               '$_counter',
               style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
@@ -82,38 +116,54 @@ class _CountState extends State<Count> {
                     new MaterialPageRoute(
                         builder: (context) => new CounterWidget()
                         // builder: (context) => Text('xxx')
-                    )
-                  );
+                        ));
+              },
+            ),
+            MaterialButton(
+              child: Text(
+                'dome1',
+                style: TextStyle(fontSize: 30.0),
+              ),
+              onPressed: () {
+                Navigator.push(context,
+                    new MaterialPageRoute(builder: (context) => new TapboxA()));
               },
             ),
             FlatButton(
-              child: Text('dome1', style: TextStyle(fontSize: 30.0),),
+              child: Text(
+                'demo2',
+                style: TextStyle(fontSize: 30.0),
+              ),
               onPressed: () {
                 Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                    builder: (context) => new TapboxA()
-                  )
-                );
-              },
-            ),
-            FlatButton(
-              child: Text('demo2', style: TextStyle(fontSize: 30.0),),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(builder: (context) => new ParentWidget())
-                );
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) => new ParentWidget()));
               },
             ),
             FlatButton(
               onPressed: () {
                 Navigator.push(
-                  context,
-                  new MaterialPageRoute(builder: (context) => new ParentWidgetC())
-                );
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) => new ParentWidgetC()));
               },
-              child: Text('demo3', style: TextStyle(fontSize: 30.0, color: Colors.deepOrange),),
+              child: Text(
+                'demo3',
+                style: TextStyle(fontSize: 30.0, color: Colors.deepOrange),
+              ),
+            ),
+            MaterialButton(
+              child: Text(
+                '去瞅瞅ios风格的页面咯',
+                style: TextStyle(fontSize: 30.0, color: Colors.red[900]),
+              ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) => new CupertinoTestRoute()));
+              },
             )
           ],
         ),
@@ -124,6 +174,70 @@ class _CountState extends State<Count> {
         child: Icon(Icons.add),
       ),
     );
+  }
+}
+
+// 文本字体样式
+class TextFontStyle extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(title: Text('文本字体样式')),
+        body: Column(
+          children: <Widget>[
+            Text(
+              'Text("Hello world", textAlign: TextAlign.center,) textAlign：文本的对齐方式；可以选择左对齐、右对齐还是居中。注意，对齐的参考系是Text widget本身。本例中虽然是指定了居中对齐，但因为Text文本内容宽度不足一行，Text的宽度和文本内容长度相等，那么这时指定对齐方式是没有意义的，只有Text宽度大于文本内容长度时指定此属性才有意义。',
+              textAlign: TextAlign.center,
+            ),
+            Text(
+              'maxLines、overflow：指定文本显示的最大行数，默认情况下，文本是自动折行的，如果指定此参数，则文本最多不会超过指定的行。如果有多余的文本，可以通过overflow来指定截断方式，默认是直接截断，本例中指定的截断方式TextOverflow.ellipsis，它会将多余文本截断后以省略符“...”表示；TextOverflow的其它截断方式请参考SDK文档。',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            Text(
+              'textScaleFactor：代表文本相对于当前字体大小的缩放因子，相对于去设置文本的样式style属性的fontSize，它是调整字体大小的一个快捷方式。该属性的默认值可以通过MediaQueryData.textScaleFactor获得，如果没有MediaQuery，那么会默认值将为1.0。',
+              textScaleFactor: 1.5,
+            ),
+            Text(
+              'TextStyle\ncolor: Colors.blue,\nfontSize: 30,\nheight: 1.2, \nfontFamily: "Courier",\nbackground: new Paint()..color=Colors.yellow,\ndecoration: TextDecoration.underline,\ndecorationStyle: TextDecorationStyle.dashed,',
+              style: TextStyle(
+                color: Colors.blue,
+                fontSize: 18.0,
+                height: 1.2,
+                fontFamily: 'Courier',
+                background: new Paint()..color = Colors.yellow,
+                decoration: TextDecoration.underline,
+                decorationStyle: TextDecorationStyle.dashed,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            Text.rich(
+              TextSpan(style: TextStyle(fontSize: 30.0),children: [
+              TextSpan(text: 'Home:'),
+              TextSpan(
+                  text: 'https://flutter.io',
+                  style: TextStyle(color: Colors.blue))
+            ])),
+            DefaultTextStyle(
+              style: TextStyle(
+                color: Colors.red,
+                fontSize: 20.0
+              ),
+              textAlign: TextAlign.right,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text('hello flutter'),
+                  Text('I am is jack'),
+                  Text('i am is bobo', style: TextStyle(
+                    inherit: false,
+                    color: Colors.blue
+                  ),)
+                ],
+              ),
+            )
+          ],
+        ));
   }
 }
 
@@ -275,11 +389,9 @@ class _TapboxAState extends State<TapboxA> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('state 切换')
-      ),
-      body: Center(
-        child: GestureDetector(
+        appBar: AppBar(title: Text('state 切换')),
+        body: Center(
+            child: GestureDetector(
           onTap: _handleTap,
           child: Container(
             child: Center(
@@ -291,13 +403,9 @@ class _TapboxAState extends State<TapboxA> {
             width: 200.0,
             height: 200.0,
             decoration: BoxDecoration(
-              color: _active ? Colors.red[700] : Colors.blue[600]
-            ),
+                color: _active ? Colors.red[700] : Colors.blue[600]),
           ),
-        )
-
-      )
-    );
+        )));
   }
 }
 
@@ -319,16 +427,13 @@ class _ParentWidgetState extends State<ParentWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: new TapboxB(
-        active:_active,
-        onChange: _handleTapboxChange
-      )
-    );
+        child: new TapboxB(active: _active, onChange: _handleTapboxChange));
   }
 }
 
 class TapboxB extends StatelessWidget {
-  TapboxB({Key key, this.active: false, @required this.onChange}) : super(key: key);
+  TapboxB({Key key, this.active: false, @required this.onChange})
+      : super(key: key);
 
   final bool active;
   final ValueChanged<bool> onChange;
@@ -340,32 +445,31 @@ class TapboxB extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('demo2')
-      ),
-      body: Center(
-        child: GestureDetector(
-          onTap: handleTap,
-          child: Container(
-            child: Center(
-              child: Text(active ? 'active' : 'inactive', style: TextStyle(fontSize: 30.0, color: Colors.white),),
-            ),
-            width: 200.0,
-            height: 200.0,
-            decoration: BoxDecoration(
-              color: active ? Colors.blue : Colors.green
+        appBar: AppBar(title: Text('demo2')),
+        body: Center(
+          child: GestureDetector(
+            onTap: handleTap,
+            child: Container(
+              child: Center(
+                child: Text(
+                  active ? 'active' : 'inactive',
+                  style: TextStyle(fontSize: 30.0, color: Colors.white),
+                ),
+              ),
+              width: 200.0,
+              height: 200.0,
+              decoration:
+                  BoxDecoration(color: active ? Colors.blue : Colors.green),
             ),
           ),
-        ),
-      )
-    );
+        ));
   }
 }
 
 // 混合管理（父widget和子widget都管理状态）
 class ParentWidgetC extends StatefulWidget {
   @override
-  _ParentWidgetCState createState() => new _ParentWidgetCState(); 
+  _ParentWidgetCState createState() => new _ParentWidgetCState();
 }
 
 class _ParentWidgetCState extends State<ParentWidgetC> {
@@ -380,21 +484,15 @@ class _ParentWidgetCState extends State<ParentWidgetC> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('demo3 混合管理状态')
-      ),
-      body:Center(
-        child: new TapboxC(
-          active: _active,
-          onChange: _handleChange
-        )
-      )
-    );
+        appBar: AppBar(title: Text('demo3 混合管理状态')),
+        body: Center(
+            child: new TapboxC(active: _active, onChange: _handleChange)));
   }
 }
 
 class TapboxC extends StatefulWidget {
-  TapboxC({Key key, this.active: false, @required this.onChange}) : super(key: key);
+  TapboxC({Key key, this.active: false, @required this.onChange})
+      : super(key: key);
 
   final bool active;
   final ValueChanged<bool> onChange;
@@ -428,24 +526,28 @@ class _TapboxCState extends State<TapboxC> {
     widget.onChange(!widget.active);
   }
 
-    @override
-    Widget build(BuildContext context) {
-      return GestureDetector(
-        onTap: _onTapHandle,
-        onTapCancel: _onTapCancel,
-        onTapDown: _onTapDown,
-        onTapUp: _onTapUp,
-        child: Container(
-          child: Center(
-            child: Text(widget.active ? 'active' : 'inactive', style: TextStyle(fontSize: 30.0, color: Colors.white),),
-          ),
-          width: 200.0,
-          height: 200.0,
-          decoration:BoxDecoration(
-            color: widget.active ? Colors.black : Colors.yellow,
-            border: _highlight ? Border.all(width: 10.0, color: Colors.teal[700]) : null
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: _onTapHandle,
+      onTapCancel: _onTapCancel,
+      onTapDown: _onTapDown,
+      onTapUp: _onTapUp,
+      child: Container(
+        child: Center(
+          child: Text(
+            widget.active ? 'active' : 'inactive',
+            style: TextStyle(fontSize: 30.0, color: Colors.white),
           ),
         ),
-      );
-    }
+        width: 200.0,
+        height: 200.0,
+        decoration: BoxDecoration(
+            color: widget.active ? Colors.black : Colors.yellow,
+            border: _highlight
+                ? Border.all(width: 10.0, color: Colors.teal[700])
+                : null),
+      ),
+    );
+  }
 }
