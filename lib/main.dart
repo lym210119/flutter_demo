@@ -78,6 +78,12 @@ class _CountState extends State<Count> {
                         builder: (context) => new TextFontStyle()));
               },
             ),
+            FlatButton(child: Text('按钮'),onPressed: () {
+              Navigator.push(
+                context,
+                new MaterialPageRoute(builder: (context) => new Button())
+              );
+            },),
             Text(
               '$_counter',
               style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
@@ -177,13 +183,28 @@ class _CountState extends State<Count> {
   }
 }
 
+
+// 自定义 Scaffold
+class MyScaffold extends StatelessWidget {
+  MyScaffold(this.myTitle, this.myBody);
+
+  final String myTitle;
+  final Widget myBody;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar:AppBar(title: Text(myTitle)),
+      body: myBody
+    );
+  }
+}
+
 // 文本字体样式
 class TextFontStyle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: Text('文本字体样式')),
-        body: Column(
+    return new MyScaffold('文本字体样式',
+        Column(
           children: <Widget>[
             Text(
               'Text("Hello world", textAlign: TextAlign.center,) textAlign：文本的对齐方式；可以选择左对齐、右对齐还是居中。注意，对齐的参考系是Text widget本身。本例中虽然是指定了居中对齐，但因为Text文本内容宽度不足一行，Text的宽度和文本内容长度相等，那么这时指定对齐方式是没有意义的，只有Text宽度大于文本内容长度时指定此属性才有意义。',
@@ -238,6 +259,29 @@ class TextFontStyle extends StatelessWidget {
             )
           ],
         ));
+  }
+}
+
+// 按钮
+class Button extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new MyScaffold('按钮', 
+     Center(child: Column(children: <Widget>[
+       RaisedButton(child: Text('RaisedButton'),onPressed: () {},),
+       FlatButton(child: Text('FlatButton'), onPressed: () {},),
+       OutlineButton(child: Text('OutlineButton'),onPressed: () {},),
+       IconButton(icon: Icon(Icons.thumb_up), onPressed: () {},),
+       RaisedButton(child: Text('自定义按钮'), onPressed: () {},
+        color: Colors.blue, 
+        highlightColor: Colors.blue[700], // 点击时高亮
+        colorBrightness: Brightness.dark,
+        splashColor: Colors.grey,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+       )
+     ],)
+      )
+    );
   }
 }
 
