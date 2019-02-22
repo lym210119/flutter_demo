@@ -33,7 +33,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(title: 'flutter', home: new Count(title: '计数器'),
         // 注册路由表
-        routes: {"new_page": (context) => MapRoute('MapRoute argument')});
+        routes: {
+          "new_page": (context) => MapRoute('MapRoute argument'),
+          "text_font_style": (context) => TextFontStyle(),
+          "button": (context) => Button(),
+          "image_and_icon": (context) => ImageAndIcon()
+        });
   }
 }
 
@@ -61,29 +66,32 @@ class _CountState extends State<Count> {
       appBar: AppBar(title: Text(widget.title)),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          // mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             RaisedButton(
-              color: Colors.blue,
-              highlightColor: Colors.blue[700],
-              colorBrightness: Brightness.dark, // 按钮主题
-              splashColor: Colors.grey,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0)),
-              child: Text('文本字体样式'),
+                color: Colors.blue,
+                highlightColor: Colors.blue[700],
+                colorBrightness: Brightness.dark, // 按钮主题
+                splashColor: Colors.grey,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0)),
+                child: Text('文本字体样式'),
+                onPressed: () {
+                  Navigator.pushNamed(context, 'text_font_style');
+                }),
+            FlatButton(
+              child: Text('按钮'),
               onPressed: () {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (context) => new TextFontStyle()));
+                Navigator.pushNamed(context, 'button');
               },
             ),
-            FlatButton(child: Text('按钮'),onPressed: () {
-              Navigator.push(
-                context,
-                new MaterialPageRoute(builder: (context) => new Button())
-              );
-            },),
+            OutlineButton(
+              child: Text('图片和Icon'),
+              onPressed: () {
+                Navigator.pushNamed(context, 'image_and_icon');
+                // Navigator.push(context, new MaterialPageRoute(builder: ((context) => new ImageAndIcon())));
+              },
+            ),
             Text(
               '$_counter',
               style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
@@ -183,7 +191,6 @@ class _CountState extends State<Count> {
   }
 }
 
-
 // 自定义 Scaffold
 class MyScaffold extends StatelessWidget {
   MyScaffold(this.myTitle, this.myBody);
@@ -192,10 +199,7 @@ class MyScaffold extends StatelessWidget {
   final Widget myBody;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar:AppBar(title: Text(myTitle)),
-      body: myBody
-    );
+    return Scaffold(appBar: AppBar(title: Text(myTitle)), body: myBody);
   }
 }
 
@@ -203,7 +207,8 @@ class MyScaffold extends StatelessWidget {
 class TextFontStyle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new MyScaffold('文本字体样式',
+    return new MyScaffold(
+        '文本字体样式',
         Column(
           children: <Widget>[
             Text(
@@ -216,7 +221,7 @@ class TextFontStyle extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
             Text(
-              'textScaleFactor：代表文本相对于当前字体大小的缩放因子，相对于去设置文本的样式style属性的fontSize，它是调整字体大小的一个快捷方式。该属性的默认值可以通过MediaQueryData.textScaleFactor获得，如果没有MediaQuery，那么会默认值将为1.0。',
+              'textScaleFactor：代表文本相对于当前字体大小的缩放因子，相对于去设置文本的样式style属性的fontSize，它是调整字体大小的一个快捷方式。该属性的默认值可以通过MediaQueryData.textScaleFactor获得，如果没有MediaQuery，那�����������会默认值将为1.0。',
               textScaleFactor: 1.5,
             ),
             Text(
@@ -232,28 +237,24 @@ class TextFontStyle extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             ),
-            Text.rich(
-              TextSpan(style: TextStyle(fontSize: 30.0),children: [
+            Text.rich(TextSpan(style: TextStyle(fontSize: 30.0), children: [
               TextSpan(text: 'Home:'),
               TextSpan(
                   text: 'https://flutter.io',
                   style: TextStyle(color: Colors.blue))
             ])),
             DefaultTextStyle(
-              style: TextStyle(
-                color: Colors.red,
-                fontSize: 20.0
-              ),
+              style: TextStyle(color: Colors.red, fontSize: 20.0),
               textAlign: TextAlign.right,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text('hello flutter'),
                   Text('I am is jack'),
-                  Text('i am is bobo', style: TextStyle(
-                    inherit: false,
-                    color: Colors.blue
-                  ),)
+                  Text(
+                    'i am is bobo',
+                    style: TextStyle(inherit: false, color: Colors.blue),
+                  )
                 ],
               ),
             )
@@ -266,23 +267,160 @@ class TextFontStyle extends StatelessWidget {
 class Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new MyScaffold('按钮', 
-     Center(child: Column(children: <Widget>[
-       RaisedButton(child: Text('RaisedButton'),onPressed: () {},),
-       FlatButton(child: Text('FlatButton'), onPressed: () {},),
-       OutlineButton(child: Text('OutlineButton'),onPressed: () {},),
-       IconButton(icon: Icon(Icons.thumb_up), onPressed: () {},),
-       RaisedButton(child: Text('自定义按钮'), onPressed: () {},
-        color: Colors.blue, 
-        highlightColor: Colors.blue[700], // 点击时高亮
-        colorBrightness: Brightness.dark,
-        splashColor: Colors.grey,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-       )
-     ],)
-      )
+    return new MyScaffold(
+        '按钮',
+        Center(
+            child: Column(
+          children: <Widget>[
+            RaisedButton(
+              child: Text('RaisedButton'),
+              onPressed: () {},
+            ),
+            FlatButton(
+              child: Text('FlatButton'),
+              onPressed: () {},
+            ),
+            OutlineButton(
+              child: Text('OutlineButton'),
+              onPressed: () {},
+            ),
+            IconButton(
+              icon: Icon(Icons.thumb_up),
+              onPressed: () {},
+            ),
+            RaisedButton(
+              child: Text('自定义按钮'), onPressed: () {},
+              color: Colors.blue,
+              highlightColor: Colors.blue[700], // 点击时高亮
+              colorBrightness: Brightness.dark,
+              splashColor: Colors.grey,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0)),
+            )
+          ],
+        )));
+  }
+}
+
+// 图片和Icon
+class ImageAndIcon extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new MyScaffold(
+      '图片和Icon',
+      Scrollbar(
+        child: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              children: <Widget>[
+                Text("通过本地资源加载的图片：\nAssetImage('images/oschina.png')"),
+                Image(
+                  image: AssetImage('images/oschina.png'),
+                  width: 50.0,
+                ),
+                Text(
+                    "第二种快捷方式加载本地图片：\nImage.asset('images/oschina.png', width: 200.0,)"),
+                Image.asset(
+                  'images/oschina.png',
+                  width: 50.0,
+                ),
+                Text(
+                    "通过网络加载的图片：\nNetworkImage('https://avatars2.githubusercontent.com/u/20411648?s=460&v=4')"),
+                Image(
+                  image: NetworkImage(
+                      'https://avatars2.githubusercontent.com/u/20411648?s=460&v=4'),
+                  width: 100.0,
+                  height: 50.0,
+                ),
+                Text('fit: BoxFit.fill 根据指定的宽高拉伸图片会变形'),
+                Image(
+                  image: NetworkImage(
+                      'https://avatars2.githubusercontent.com/u/20411648?s=460&v=4'),
+                  width: 100.0,
+                  height: 50.0,
+                  fit: BoxFit.fill,
+                ),
+                Text('fit: BoxFit.contain 根据指定的宽高居中填充'),
+                Image(
+                  image: NetworkImage(
+                      'https://avatars2.githubusercontent.com/u/20411648?s=460&v=4'),
+                  width: 50.0,
+                  height: 100.0,
+                  fit: BoxFit.contain,
+                ),
+                Text('fit: BoxFit.cover 根据指定的宽高拉伸图片会进行裁剪'),
+                Image(
+                  image: NetworkImage(
+                      'https://avatars2.githubusercontent.com/u/20411648?s=460&v=4'),
+                  width: 50.0,
+                  height: 100.0,
+                  fit: BoxFit.cover,
+                ),
+                Text('fit: BoxFit.fitHeight 根据指定的高拉伸图片并会裁剪图片'),
+                Image(
+                  image: NetworkImage(
+                      'https://avatars2.githubusercontent.com/u/20411648?s=460&v=4'),
+                  width: 50.0,
+                  height: 100.0,
+                  fit: BoxFit.fitHeight,
+                ),
+                Text('fit: BoxFit.fitWidth 根据指定的宽拉伸图片并会裁剪图片'),
+                Image(
+                  image: NetworkImage(
+                      'https://avatars2.githubusercontent.com/u/20411648?s=460&v=4'),
+                  width: 100.0,
+                  height: 50.0,
+                  fit: BoxFit.fitWidth,
+                ),
+                Text('color: Colors.blue'),
+                Image.asset(
+                  'images/oschina.png',
+                  color: Colors.blue,
+                  colorBlendMode: BlendMode.difference,
+                ),
+                Text('repeat: ImageRepeat.repeatY'),
+                Image(
+                  image: NetworkImage(
+                      "https://avatars2.githubusercontent.com/u/20411648?s=460&v=4"),
+                  width: 100.0,
+                  height: 200.0,
+                  repeat: ImageRepeat.repeatY,
+                ),
+                Text('字体图标'),
+                Text('\uE914', style: TextStyle(
+                  fontFamily: 'MatarialIcon',
+                  fontSize: 38.0,
+                  color: Colors.blue
+                ),
+                ),
+                Text('Icons.add, color: Colors.red,size: 50.0'),
+                Icon(Icons.add, color: Colors.red,size: 50.0,),
+                Text('使用自定义字体图标（iconfont.cn）'),
+                Icon(MyIcons.position, color: Colors.orange, size: 80.0),
+                Icon(MyIcons.radio, color: Colors.greenAccent, size: 80.0),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
+}
+
+// 自定义一个 MyIcons 类
+class MyIcons {
+  // 定位图标 position
+  static const IconData position = const IconData(
+    0xe65e,
+    fontFamily: 'MyIcon',
+    matchTextDirection: true
+  );
+  // 广播图标 radio
+  static const IconData radio = const IconData(
+    0xe6dc,
+    fontFamily: 'MyIcon',
+    matchTextDirection: true
+  );
 }
 
 class NewRoute extends StatelessWidget {
