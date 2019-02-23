@@ -37,7 +37,8 @@ class MyApp extends StatelessWidget {
           "new_page": (context) => MapRoute('MapRoute argument'),
           "text_font_style": (context) => TextFontStyle(),
           "button": (context) => Button(),
-          "image_and_icon": (context) => ImageAndIcon()
+          "image_and_icon": (context) => ImageAndIcon(),
+          "switch_and_checkbox": (context) => SwitchAndCheckbox()
         });
   }
 }
@@ -92,6 +93,9 @@ class _CountState extends State<Count> {
                 // Navigator.push(context, new MaterialPageRoute(builder: ((context) => new ImageAndIcon())));
               },
             ),
+            RaisedButton(child: Text('单选框和复选框'), onPressed: () {
+              Navigator.pushNamed(context, 'switch_and_checkbox');
+            },),
             Text(
               '$_counter',
               style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
@@ -422,6 +426,103 @@ class MyIcons {
     matchTextDirection: true
   );
 }
+
+// 单选框和复选框
+class SwitchAndCheckbox extends StatefulWidget {
+  @override
+  _SwitchAndCheckboxState createState() => new _SwitchAndCheckboxState();
+}
+class _SwitchAndCheckboxState extends State<SwitchAndCheckbox> {
+  bool _switchSelected = true;  // 维护单选开关状态
+  bool _checkboxSelected = true;  // 维护复选开关状态
+  // String _gender = '';   // 性别
+  bool _male = false;
+  bool _famale = false;
+  bool _secret = false;
+
+  void _changeSwitch(value) {
+    setState(() {
+      _switchSelected = value;
+    });
+  }
+  void _changeCheckbox(value) {
+    setState(() {
+      _checkboxSelected = value;
+    });
+  }
+
+  void _maleSelected(value) {
+    setState(() {
+      _male = value;
+      if (value) {
+        _famale = !value;
+        _secret = !value;
+        
+      }
+    });
+  }
+  void _famaleSelected(value) {
+    setState(() {
+      _famale = value;
+      if (value) {
+        _male = !value;
+        _secret = !value;
+
+      }
+    });
+  }
+  void _secretSelected(value) {
+    setState(() {
+      _secret = value;
+      if (value) {
+        _male = !value;
+        _famale = !value;
+
+      }
+    });
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return MyScaffold('单选框和复选框', Column(children: <Widget>[
+      Switch(
+        value: _switchSelected, // 当前状态
+        activeColor: Colors.black,
+        onChanged: _changeSwitch,
+      ),
+      Checkbox(
+        value: _checkboxSelected,
+        activeColor: Colors.green,
+        onChanged: _changeCheckbox,
+        // tristate: true,
+      ),
+      Row(
+        children: <Widget>[
+          Checkbox(
+            value: _male,
+            activeColor: Colors.red,
+            onChanged: _maleSelected
+          ),
+          Text('男'),
+          Checkbox(
+            value: _famale,
+            activeColor: Colors.red,
+            onChanged: _famaleSelected, 
+          ),
+          Text('女'),
+          Checkbox(
+            value: _secret,
+            activeColor: Colors.red,
+            onChanged: _secretSelected, 
+          ),
+          Text('保密'),
+        ],
+      )
+    ],));
+  }
+}
+
 
 class NewRoute extends StatelessWidget {
   @override
