@@ -38,7 +38,9 @@ class MyApp extends StatelessWidget {
           "text_font_style": (context) => TextFontStyle(),
           "button": (context) => Button(),
           "image_and_icon": (context) => ImageAndIcon(),
-          "switch_and_checkbox": (context) => SwitchAndCheckbox()
+          "switch_and_checkbox": (context) => SwitchAndCheckbox(),
+          "input_and_form": (context) => InputAndForm(),
+          "login_demo": (context) => LoginDemo()
         });
   }
 }
@@ -66,7 +68,7 @@ class _CountState extends State<Count> {
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
       body: Center(
-        child: Column(
+        child: ListView(
           // mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             RaisedButton(
@@ -93,9 +95,47 @@ class _CountState extends State<Count> {
                 // Navigator.push(context, new MaterialPageRoute(builder: ((context) => new ImageAndIcon())));
               },
             ),
-            RaisedButton(child: Text('单选框和复选框'), onPressed: () {
-              Navigator.pushNamed(context, 'switch_and_checkbox');
-            },),
+            MaterialButton(
+              child: Text('登录示例'),
+              color: Colors.cyan,
+              colorBrightness: Brightness.dark,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(90.0)),
+              onPressed: () {
+                Navigator.pushNamed(context, 'login_demo');
+              },
+            ),
+            //     Row(
+            //       children: <Widget>[
+            //         RaisedButton(
+            //           child: Text('单选框和复选框'),
+            //           onPressed: () {
+            //             Navigator.pushNamed(context, 'switch_and_checkbox');
+            //           },
+            //         ),
+            //         FlatButton(
+            //           child: Text('输入框和表单'),
+            //           color: Colors.red,
+            //           colorBrightness: Brightness.dark,
+            //           onPressed: () {
+            //             Navigator.pushNamed(context, 'input_and_form');
+            //           },
+            //         ),
+            //         RaisedButton(
+            //           child: Text('登录示例'),
+            //           color: Colors.orange,
+            //           onHighlightChanged: (value) {
+            //             print(value);
+            //           },
+            //           colorBrightness: Brightness.dark,
+            //           shape: RoundedRectangleBorder(
+            //               borderRadius: BorderRadius.circular(70.0)),
+            //           onPressed: () {},
+            //         ),
+            //       ],
+            //     ),
+            //   ],
+            // ),
             Text(
               '$_counter',
               style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
@@ -391,14 +431,19 @@ class ImageAndIcon extends StatelessWidget {
                   repeat: ImageRepeat.repeatY,
                 ),
                 Text('字体图标'),
-                Text('\uE914', style: TextStyle(
-                  fontFamily: 'MatarialIcon',
-                  fontSize: 38.0,
-                  color: Colors.blue
-                ),
+                Text(
+                  '\uE914',
+                  style: TextStyle(
+                      fontFamily: 'MatarialIcon',
+                      fontSize: 38.0,
+                      color: Colors.blue),
                 ),
                 Text('Icons.add, color: Colors.red,size: 50.0'),
-                Icon(Icons.add, color: Colors.red,size: 50.0,),
+                Icon(
+                  Icons.add,
+                  color: Colors.red,
+                  size: 50.0,
+                ),
                 Text('使用自定义字体图标（iconfont.cn）'),
                 Icon(MyIcons.position, color: Colors.orange, size: 80.0),
                 Icon(MyIcons.radio, color: Colors.greenAccent, size: 80.0),
@@ -414,17 +459,11 @@ class ImageAndIcon extends StatelessWidget {
 // 自定义一个 MyIcons 类
 class MyIcons {
   // 定位图标 position
-  static const IconData position = const IconData(
-    0xe65e,
-    fontFamily: 'MyIcon',
-    matchTextDirection: true
-  );
+  static const IconData position =
+      const IconData(0xe65e, fontFamily: 'MyIcon', matchTextDirection: true);
   // 广播图标 radio
-  static const IconData radio = const IconData(
-    0xe6dc,
-    fontFamily: 'MyIcon',
-    matchTextDirection: true
-  );
+  static const IconData radio =
+      const IconData(0xe6dc, fontFamily: 'MyIcon', matchTextDirection: true);
 }
 
 // 单选框和复选框
@@ -432,9 +471,10 @@ class SwitchAndCheckbox extends StatefulWidget {
   @override
   _SwitchAndCheckboxState createState() => new _SwitchAndCheckboxState();
 }
+
 class _SwitchAndCheckboxState extends State<SwitchAndCheckbox> {
-  bool _switchSelected = true;  // 维护单选开关状态
-  bool _checkboxSelected = true;  // 维护复选开关状态
+  bool _switchSelected = true; // 维护单选开关状态
+  bool _checkboxSelected = true; // 维护复选开关状态
   // String _gender = '';   // 性别
   bool _male = false;
   bool _famale = false;
@@ -445,6 +485,7 @@ class _SwitchAndCheckboxState extends State<SwitchAndCheckbox> {
       _switchSelected = value;
     });
   }
+
   void _changeCheckbox(value) {
     setState(() {
       _checkboxSelected = value;
@@ -457,72 +498,321 @@ class _SwitchAndCheckboxState extends State<SwitchAndCheckbox> {
       if (value) {
         _famale = !value;
         _secret = !value;
-        
       }
     });
   }
+
   void _famaleSelected(value) {
     setState(() {
       _famale = value;
       if (value) {
         _male = !value;
         _secret = !value;
-
       }
     });
   }
+
   void _secretSelected(value) {
     setState(() {
       _secret = value;
       if (value) {
         _male = !value;
         _famale = !value;
-
       }
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return MyScaffold('单选框和复选框', Column(children: <Widget>[
-      Switch(
-        value: _switchSelected, // 当前状态
-        activeColor: Colors.black,
-        onChanged: _changeSwitch,
-      ),
-      Checkbox(
-        value: _checkboxSelected,
-        activeColor: Colors.green,
-        onChanged: _changeCheckbox,
-        // tristate: true,
-      ),
-      Row(
-        children: <Widget>[
-          Checkbox(
-            value: _male,
-            activeColor: Colors.red,
-            onChanged: _maleSelected
-          ),
-          Text('男'),
-          Checkbox(
-            value: _famale,
-            activeColor: Colors.red,
-            onChanged: _famaleSelected, 
-          ),
-          Text('女'),
-          Checkbox(
-            value: _secret,
-            activeColor: Colors.red,
-            onChanged: _secretSelected, 
-          ),
-          Text('保密'),
-        ],
-      )
-    ],));
+    return MyScaffold(
+        '单选框和复选框',
+        Column(
+          children: <Widget>[
+            Switch(
+              value: _switchSelected, // 当前状态
+              activeColor: Colors.black,
+              onChanged: _changeSwitch,
+            ),
+            Checkbox(
+              value: _checkboxSelected,
+              activeColor: Colors.green,
+              onChanged: _changeCheckbox,
+              // tristate: true,
+            ),
+            Row(
+              children: <Widget>[
+                Checkbox(
+                    value: _male,
+                    activeColor: Colors.red,
+                    onChanged: _maleSelected),
+                Text('男'),
+                Checkbox(
+                  value: _famale,
+                  activeColor: Colors.red,
+                  onChanged: _famaleSelected,
+                ),
+                Text('女'),
+                Checkbox(
+                  value: _secret,
+                  activeColor: Colors.red,
+                  onChanged: _secretSelected,
+                ),
+                Text('保密'),
+              ],
+            )
+          ],
+        ));
   }
 }
 
+// 输入框和表单
+class InputAndForm extends StatefulWidget {
+  @override
+  _InputAndFormState createState() => new _InputAndFormState();
+}
+
+class _InputAndFormState extends State<InputAndForm> {
+  String _username = '';
+  String _password = '';
+
+  TextEditingController _usernameController = new TextEditingController();
+  TextEditingController _passwordController = new TextEditingController();
+
+  void initState() {
+    _usernameController.addListener(() {
+      print(_usernameController.text);
+    });
+  }
+
+  // 声明两个FocusNode 类型的的变量 和
+  FocusNode _focusNode1 = new FocusNode();
+  FocusNode _focusNode2 = new FocusNode();
+  FocusScopeNode _focusScopeNode;
+
+  @override
+  Widget build(BuildContext context) {
+    // print(_usernameController.text + ' ' +  _passwordController.text);
+    return MyScaffold(
+      '输入框和表单',
+      Container(
+        child: Theme(
+          data: Theme.of(context).copyWith(
+              hintColor: Colors.red[200],
+              inputDecorationTheme: InputDecorationTheme(
+                  // labelStyle: TextStyle(color: Colors.red),
+                  hintStyle: TextStyle(color: Colors.red, fontSize: 14.0))),
+          child: Column(
+            children: <Widget>[
+              // TextField(
+              //   // autofocus: true,
+              //   decoration: InputDecoration(
+              //     labelText: '用户名',
+              //     hintText: '请输入用户名或邮箱',
+              //     prefixIcon: Icon(Icons.person),
+              //   ),
+              //   maxLength: 11,
+              //   controller: _usernameController,
+              //   // onChanged: (value) {
+              //   //   setState(() {
+              //   //     _username = value;
+              //   //   });
+              //   // },
+              // ),
+              // TextField(
+              //     decoration: InputDecoration(
+              //         labelText: '密码',
+              //         hintText: '请输入您的密码',
+              //         hintStyle: TextStyle(color: Colors.red),
+              //         prefixIcon: Icon(Icons.lock)),
+              //     obscureText: true,
+              //     maxLength: 15,
+              //     controller: _passwordController
+              //     // onChanged: (value) {
+              //     //   setState(() {
+              //     //     _password = value;
+              //     //   });
+              //     // },
+              //     ),
+              Text(
+                '焦点控制',
+                style: TextStyle(fontSize: 50.0),
+              ),
+              TextField(
+                decoration: InputDecoration(
+                    labelText: 'input1',
+                    // labelStyle: TextStyle(color: Colors.pink),
+                    border: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.red, width: 5.0))),
+                autofocus: true,
+                focusNode: _focusNode1,
+              ),
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'input2',
+                  // labelStyle: TextStyle(color: Colors.pink),
+                ),
+                focusNode: _focusNode2,
+              ),
+              RaisedButton(
+                child: Text('移动焦点'),
+                color: Colors.pink,
+                highlightColor: Colors.pink[700],
+                colorBrightness: Brightness.dark,
+                onPressed: () {
+                  //将焦点从第一个TextField移到第二个TextField
+                  // 这是一种写法 FocusScope.of(context).requestFocus(focusNode2);
+                  // FocusScope.of(context).requestFocus(_focusNode2);
+                  // 这是第二种写法
+                  if (null == _focusScopeNode) {
+                    _focusScopeNode = FocusScope.of(context);
+                  }
+                  _focusScopeNode.requestFocus(_focusNode2);
+                  // 监听焦点状态改变事件
+                  _focusNode1.addListener(() {
+                    print(_focusNode1.hasFocus);
+                  });
+                },
+              ),
+
+              RaisedButton(
+                child: Text('隐藏键盘'),
+                color: Colors.purple,
+                colorBrightness: Brightness.dark,
+                highlightColor: Colors.red[400],
+                onPressed: () {
+                  _focusNode1.unfocus();
+                  _focusNode2.unfocus();
+                },
+              ),
+
+              TextField(
+                keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(
+                    labelText: 'email',
+                    hintText: '电子邮件地址',
+                    prefixIcon: Icon(Icons.email),
+                    border: InputBorder.none),
+              )
+            ],
+          ),
+        ),
+        padding: EdgeInsets.all(20.0),
+      ),
+    );
+  }
+}
+
+// 登录示例
+class LoginDemo extends StatefulWidget {
+  @override
+  _LoginDemoState createState() => new _LoginDemoState();
+}
+
+class _LoginDemoState extends State<LoginDemo> {
+  TextEditingController _unameController = new TextEditingController();
+  TextEditingController _pwdController = new TextEditingController();
+  GlobalKey _formKey = new GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    return MyScaffold(
+        '登录示例',
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+          child: Form(
+            key: _formKey, // 设置globalKey，用于后面获取FormState
+            autovalidate: true, // 开启自动校验
+            child: Column(
+              children: <Widget>[
+                TextFormField(
+                    autofocus: true,
+                    controller: _unameController,
+                    decoration: InputDecoration(
+                      labelText: '用户名',
+                      hintText: '请输入用户名或邮箱',
+                      prefixIcon: Icon(Icons.person),
+                    ),
+                    // 校验用户名
+                    validator: (v) {
+                      return v.trim().length > 0 ? null : '用户名不能为空';
+                    }),
+                TextFormField(
+                    obscureText: true,
+                    controller: _pwdController,
+                    decoration: InputDecoration(
+                        labelText: '密码',
+                        hintText: '请输入密码',
+                        prefixIcon: Icon(Icons.lock)),
+                    validator: (v) {
+                      return v.length >= 6 ? null : '密码不能小于六位';
+                    }),
+                // 登录按钮
+                Padding(
+                    padding: const EdgeInsets.only(top: 28.0),
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: RaisedButton(
+                            padding: EdgeInsets.all(15.0),
+                            child: Text('马上登录'),
+                            color: Theme.of(context).primaryColor,
+                            colorBrightness: Brightness.dark,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50.0)),
+                            onPressed: () {
+                              // 在这里不能通过此方式获取FormState，context不对
+                              // print(Form.of(context));
+
+                              // 通过_formKey.currentState 获取FormState后，
+                              // 调用validate()方法校验用户名密码是否合法，校验
+                              // 通过后再提交数据。
+                              print((_formKey.currentState as FormState)
+                                  .validate());
+                              if ((_formKey.currentState as FormState)
+                                  .validate()) {
+                                // 验证通过提交数据
+
+                              }
+                            },
+                          ),
+                        )
+                      ],
+                    )),
+
+                // 通过 builder 来构建按钮 使用 Form.of(context)
+                Padding(
+                    padding: const EdgeInsets.only(top: 28.0),
+                    child: Row(children: <Widget>[
+                      Expanded(
+                        // 通过Builder来获取RaisedButton所在widget树的真正context(Element) 
+                        child: Builder(
+                          builder: (context) {
+                            return RaisedButton(
+                              child: Text('马上登录2'),
+                              color: Colors.lightGreen,
+                              colorBrightness: Brightness.dark,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              onPressed: () {
+                                // 由于本widget也是Form的子代widget，所以可以通过下面方式获取FormState  
+                                // print(Form.of(context).validate());
+                                if (Form.of(context).validate()) {
+                                // 验证通过提交数据
+
+                                }
+                              },
+                              padding: EdgeInsets.all(15.0),
+                            );
+                          },
+                        ),
+                      )
+                    ]))
+              ],
+            ),
+          ),
+        ));
+  }
+}
 
 class NewRoute extends StatelessWidget {
   @override
